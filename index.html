@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Öğrenci Listesi</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">📚 Öğrenci Takip Sistemi</a>
+        </div>
+        <div>
+            <a href="{{ url_for('add_student') }}" class="btn btn-success ms-3">
+                ➕ Yeni Öğrenci Ekle
+            </a>
+        </div>
+
+    </nav>
+
+
+
+    <!-- ÖĞRENCİ LİSTESİ -->
+    <div class="container mt-4">
+        <h2 class="text-center">📋 Öğrenci Listesi</h2>
+        <div class="row">
+            {% for student in students %}
+            <div class="col-md-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ student[1] }} {{ student[2] }}</h5>
+                        <p class="card-text">📚 Sınıf: {{ student[3] }}</p>
+                        <a href="{{ url_for('student_profile', student_id=student[0]) }}" class="btn btn-primary">
+                            📊 Profili Görüntüle
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+
+</html>

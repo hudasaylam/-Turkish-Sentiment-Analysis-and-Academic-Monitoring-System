@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ student[1] }} {{ student[2] }} Profili</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">📚 Öğrenci Takip Sistemi</a>
+            <a href="/" class="btn btn-light">⬅️ Geri Dön</a>
+        </div>
+    </nav>
+
+    <!-- Profil Bilgileri -->
+    <div class="container mt-5">
+        <div class="card shadow-sm p-4 mb-4">
+            <h4>👤 {{ student[1] }} {{ student[2] }}</h4>
+            <p><strong>Sınıf:</strong> {{ student[3] }}</p>
+        </div>
+
+        <div class="mb-4">
+            <a href="{{ url_for('add_academic', student_id=student[0]) }}" class="btn btn-success">➕ Yeni Akademik Bilgi
+                Ekle</a>
+            <a href="{{ url_for('add_text', student_id=student[0]) }}" class="btn btn-warning">📝 Yeni Metin Ekle</a>
+        </div>
+
+
+
+
+        <div class="row">
+            <!-- Akademik Grafik -->
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5>📊 Akademik Anomali Tespiti</h5>
+                        <ul class="list-group mt-3">
+                            {% if anomalies and anomalies|length > 0 %}
+                            {% for anomaly in anomalies %}
+                            <li class="list-group-item text-danger">
+                                ⚠️ {{ anomaly.semester }} - {{ anomaly.type }} Anormal Not: {{ anomaly.anomaly_grade }}
+                            </li>
+                            {% endfor %}
+                            {% else %}
+                            <li class="list-group-item text-success">✅ Anomali tespit edilmedi.</li>
+                            {% endif %}
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Metinler & Duygu Analizleri -->
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">📝 Metinler ve Duygu Analizleri</h5>
+                        <ul class="list-group">
+                            {% for text in student_texts %}
+                            <li class="list-group-item">
+                                {{ text.content }}
+                                <span
+                                    class="badge {% if text.sentiment == 'Pozitif' %}bg-success{% elif text.sentiment == 'Negatif' %}bg-danger{% else %}bg-secondary{% endif %}">
+                                    {{ text.sentiment }}
+                                </span>
+                                <small class="text-muted d-block">📅 {{ text.created_at }}</small>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const labels = JSON.parse('{{ labels | tojson | safe }}');
+        const grades = JSON.parse('{{ grades | tojson | safe }}');
+
+        const ctx = document.getElementById('academicChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Dönem Ortalamaları',
+                    data: grades,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderWidth: 3,
+                    tension: 0.1
+                }]
+            },
+            options: { responsive: true }
+        });
+    </script>
+
+</body>
+
+</html>
