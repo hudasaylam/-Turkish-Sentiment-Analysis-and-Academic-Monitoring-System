@@ -15,7 +15,7 @@ Includes BERT-based NLP and anomaly detection with a clean Flask UI.
 ## Data
 
 - **Dataset:** GoEmotions (originally Google’s), auto-translated to Turkish
-- **Labels:** 4 classes (Positive, Neutral, Negative)
+- **Labels:** 3 classes (Positive, Neutral, Negative)
 - **All training, testing, and inference adapted for Turkish**
 
 ## Quick Start
