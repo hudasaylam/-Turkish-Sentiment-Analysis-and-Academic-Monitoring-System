@@ -1,4 +1,4 @@
-# -Turkish-Sentiment-Analysis-and-Academic-Monitoring-System
+# Turkish-Sentiment-Analysis-and-Academic-Monitoring-System-with-NLP
 
 A web app for analyzing Turkish student emotions and academic performance.  
 Trained on the Turkish-translated GoEmotions dataset, reduced to 4 sentiment classes.  
